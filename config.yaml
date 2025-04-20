@@ -1,0 +1,77 @@
+# is_train: True # train deepsvdd
+# is_rag: True # use post processing stage
+# dataset_name: BGL
+# train_ratio: 0.8
+# window_size: 200
+# window_time: 1800 # 30 minutes
+
+# # dataset and model paths
+# log_structed_path: ./dataset/BGL/bgl-example.log_structured.csv
+# encoder_path: ./pretrained
+
+# # openai key
+# api_key: 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
+# api_base: https://api.openai-proxy.org/v1
+
+# llm_name: gpt-3.5-turbo
+# # llm_name: mistralai/Mistral-7B-Instruct-v0.1 # from huggingface
+
+# # deepsvdd parameters
+# normal_class: 0
+# is_pretrain: False
+# optimizer_name: adam
+# lr: 0.0001
+# n_epochs: 150
+# lr_milestones: [50]
+# batch_size: 40960
+# weight_decay: 0.0005
+# device: cuda:0
+# n_jobs_dataloader: 0
+
+# # rag parameters
+# threshold: 0.8
+# topk: 5
+# prompt: prompt5
+# persist_directory: ./output/ragdb-bgl
+
+# LogRAG Configuration (Mistral-7B Version)
+# =========================================
+
+# Execution Mode
+is_train: True # Whether to train DeepSVDD
+is_rag: True # Whether to use RAG post-processing
+dataset_name: BGL # Dataset to use
+
+# Dataset Parameters
+train_ratio: 0.8 # Train/test split ratio
+window_size: 200 # Number of logs per window
+window_time: 1800 # Time window in seconds (30 mins)
+
+# Model Configuration
+llm_name: "mistralai/Mistral-7B-Instruct-v0.1" # Mistral model
+encoder_path: "./pretrained/mistral" # Local model cache
+
+# Dataset Paths
+log_structed_path: "./dataset/BGL/bgl-example.log_structured.csv"
+
+# DeepSVDD Training Parameters (Adjusted for Mistral)
+normal_class: 0 # Class treated as normal
+is_pretrain: False # Whether to pretrain
+optimizer_name: adam # Optimization algorithm
+lr: 0.0001 # Learning rate (may need adjustment)
+n_epochs: 50 # Reduced epochs for efficiency
+lr_milestones: [20] # Adjusted milestones
+batch_size: 8 # Significantly reduced for VRAM constraints
+weight_decay: 0.0005 # L2 regularization
+device: "cuda:0" # Requires GPU with 24GB+ VRAM
+n_jobs_dataloader: 0 # Workers for data loading
+
+# RAG Parameters (Mistral-optimized)
+threshold: 0.7 # Adjusted similarity threshold
+topk: 3 # Reduced retrieved passages
+prompt: "mistral_prompt" # Special prompt template for Mistral
+persist_directory: "./output/ragdb-bgl-mistral" # Separate vector store
+
+# Quantization Configuration (Recommended)
+use_4bit: True # Enable 4-bit quantization
+bnb_4bit_type: "nf4" # Normal Float 4 quantization
